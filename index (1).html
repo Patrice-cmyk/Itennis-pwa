@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITennis - Prototype PWA</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Pour une PWA plus complète (hors MVP initial peut-être) -->
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <!-- <meta name="theme-color" content="#006400"> -->
+</head>
+<body>
+    <div id="app-container">
+        <header>
+            <h1>ITennis</h1>
+        </header>
+
+        <main id="main-content">
+            <section id="auth-screen" class="screen">
+                <div class="tabs">
+                    <button id="show-signup-btn" class="tab-btn active">S'inscrire</button>
+                    <button id="show-login-btn" class="tab-btn">Se Connecter</button>
+                </div>
+
+                <div id="signup-form-container" class="form-container active">
+                    <h2>Créer un compte</h2>
+                    <form id="signup-form">
+                        <div>
+                            <label for="signup-pseudo">Pseudo:</label>
+                            <input type="text" id="signup-pseudo" name="signup-pseudo" required minlength="3">
+                        </div>
+                        <div>
+                            <label for="signup-email">Email:</label>
+                            <input type="email" id="signup-email" name="signup-email" required>
+                        </div>
+                        <div>
+                            <label for="signup-password">Mot de passe:</label>
+                            <input type="password" id="signup-password" name="signup-password" required minlength="7">
+                        </div>
+                        <div>
+                            <label for="signup-confirm-password">Confirmer le mot de passe:</label>
+                            <input type="password" id="signup-confirm-password" name="signup-confirm-password" required>
+                        </div>
+                        <button type="submit">S'inscrire</button>
+                    </form>
+                </div>
+
+                <div id="login-form-container" class="form-container">
+                    <h2>Se Connecter</h2>
+                    <form id="login-form">
+                        <div>
+                            <label for="login-email">Email:</label>
+                            <input type="email" id="login-email" name="login-email" required>
+                        </div>
+                        <div>
+                            <label for="login-password">Mot de passe:</label>
+                            <input type="password" id="login-password" name="login-password" required>
+                        </div>
+                        <button type="submit">Se Connecter</button>
+                    </form>
+                </div>
+                <p id="auth-message" class="message"></p>
+            </section>
+
+            <section id="dashboard-screen" class="screen">
+                <h2>Tableau de Bord</h2>
+                <p>Bienvenue, <span id="user-pseudo-display"></span>!</p>
+                <p><a href="#" id="create-party-link" class="nav-link" data-target="create-party-screen">Créer une partie</a></p>
+                <p><a href="#" id="view-parties-link" class="nav-link" data-target="party-list-screen">Voir les parties</a></p>
+                <p><a href="#" id="profile-link" class="nav-link" data-target="profile-screen">Mon Profil</a></p>
+                <button id="logout-btn">Déconnexion</button>
+            </section>
+
+            <section id="profile-screen" class="screen">
+                <h2>Mon Profil</h2>
+                <form id="profile-form">
+                    <div>
+                        <label for="profile-pseudo">Pseudo:</label>
+                        <input type="text" id="profile-pseudo" name="profile-pseudo" required minlength="3">
+                    </div>
+                    <div>
+                        <label for="profile-email">Email:</label>
+                        <input type="email" id="profile-email" name="profile-email" readonly disabled>
+                    </div>
+                    <div>
+                        <label for="profile-level">Niveau:</label>
+                        <select id="profile-level" name="profile-level">
+                            <option value="Débutant">Débutant</option>
+                            <option value="Intermédiaire">Intermédiaire</option>
+                            <option value="Avancé">Avancé</option>
+                            <option value="Compétition">Compétition</option>
+                        </select>
+                    </div>
+                    <button type="submit">Mettre à jour le profil</button>
+                </form>
+                <p id="profile-message" class="message"></p>
+                <button id="back-to-dashboard-profile" class="back-btn">Retour au Tableau de Bord</button>
+            </section>
+
+            <section id="create-party-screen" class="screen">
+                 <h2>Créer une Partie</h2>
+                <p>Bientôt disponible...</p>
+                <button id="back-to-dashboard-create" class="back-btn">Retour au Tableau de Bord</button>
+            </section>
+
+            <section id="party-list-screen" class="screen">
+                <h2>Liste des Parties</h2>
+                <p>Bientôt disponible...</p>
+                <button id="back-to-dashboard-list" class="back-btn">Retour au Tableau de Bord</button>
+            </section>
+            
+            <section id="party-detail-screen" class="screen">
+                <!-- Contenu détail partie -->
+            </section>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2025 ITennis</p>
+            <button id="theme-switcher">Changer de thème</button>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
