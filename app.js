@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Écrans
     const authScreen = document.getElementById("auth-screen");
     const dashboardScreen = document.getElementById("dashboard-screen");
+    const profileScreen = document.getElementById("profile-screen");
     // ... (autres écrans à définir plus tard)
 
     // Éléments d'authentification
@@ -23,6 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const userPseudoDisplay = document.getElementById("user-pseudo-display");
     const logoutBtn = document.getElementById("logout-btn");
 
+    // Éléments du profil
+    const profileForm = document.getElementById("profile-form");
+    const profilePseudo = document.getElementById("profile-pseudo");
+    const profileEmail = document.getElementById("profile-email");
+    const profileLevel = document.getElementById("profile-level");
+    const profileMessage = document.getElementById("profile-message");
+    const backToDashboardProfile = document.getElementById("back-to-dashboard-profile");
+    const profileNameDisplay = document.getElementById("profile-name-display");
+    const profileLevelDisplay = document.getElementById("profile-level-display");
+
     // --- Gestion de l'état de l'application (navigation simple) ---
     function navigateTo(screenId) {
         document.querySelectorAll(".screen").forEach(screen => {
@@ -31,6 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetScreen = document.getElementById(screenId);
         if (targetScreen) {
             targetScreen.classList.add("active");
+            
+            // Actions spécifiques lors de la navigation vers certains écrans
+            if (screenId === "profile-screen") {
+                loadProfileData();
+            }
         } else {
             console.error(`Screen with id ${screenId} not found.`);
         }
@@ -56,6 +72,15 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             authMessage.textContent = "";
             authMessage.className = "message";
+        }, 3000);
+    }
+
+    function displayProfileMessage(message, type) {
+        profileMessage.textContent = message;
+        profileMessage.className = `message ${type}`;
+        setTimeout(() => {
+            profileMessage.textContent = "";
+            profileMessage.className = "message";
         }, 3000);
     }
 
@@ -127,6 +152,56 @@ document.addEventListener("DOMContentLoaded", () => {
         navigateTo("auth-screen");
     });
 
+    // --- Gestion du profil utilisateur ---
+    function loadProfileData() {
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+            profilePseudo.value = currentUser.pseudo;
+            profileEmail.value = currentUser.email;
+            profileLevel.value = currentUser.level || "Débutant";
+            
+            // Mise à jour des affichages en haut du profil
+            profileNameDisplay.textContent = currentUser.pseudo;
+            profileLevelDisplay.textContent = `Niveau: ${currentUser.level || "Débutant"}`;
+        }
+    }
+
+    profileForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+            navigateTo("auth-screen");
+            return;
+        }
+
+        const updatedPseudo = profilePseudo.value;
+        const updatedLevel = profileLevel.value;
+
+        // Mise à jour de l'utilisateur actuel
+        currentUser.pseudo = updatedPseudo;
+        currentUser.level = updatedLevel;
+        setCurrentUser(currentUser);
+
+        // Mise à jour dans la liste des utilisateurs
+        let users = JSON.parse(localStorage.getItem("usersITennis")) || [];
+        const userIndex = users.findIndex(user => user.email === currentUser.email);
+        if (userIndex !== -1) {
+            users[userIndex] = currentUser;
+            localStorage.setItem("usersITennis", JSON.stringify(users));
+        }
+
+        // Mise à jour des affichages
+        profileNameDisplay.textContent = updatedPseudo;
+        profileLevelDisplay.textContent = `Niveau: ${updatedLevel}`;
+        
+        displayProfileMessage("Profil mis à jour avec succès !", "success");
+        updateUIForLoggedInUser(currentUser);
+    });
+
+    backToDashboardProfile.addEventListener("click", () => {
+        navigateTo("dashboard-screen");
+    });
+
     // --- Mise à jour de l'UI en fonction de l'état de connexion ---
     function updateUIForLoggedInUser(user) {
         if (userPseudoDisplay) userPseudoDisplay.textContent = user.pseudo;
@@ -160,7 +235,29 @@ document.addEventListener("DOMContentLoaded", () => {
     if(viewPartiesLink) viewPartiesLink.addEventListener("click", (e) => { e.preventDefault(); navigateTo("party-list-screen"); });
     if(profileLink) profileLink.addEventListener("click", (e) => { e.preventDefault(); navigateTo("profile-screen"); });
 
+    // Boutons de retour
+    const backToDashboardCreate = document.getElementById("back-to-dashboard-create");
+    const backToDashboardList = document.getElementById("back-to-dashboard-list");
+
+    if(backToDashboardCreate) backToDashboardCreate.addEventListener("click", () => { navigateTo("dashboard-screen"); });
+    if(backToDashboardList) backToDashboardList.addEventListener("click", () => { navigateTo("dashboard-screen"); });
+
+    // Détection du mode sombre du système
+    function detectColorScheme() {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    }
+
+    // Écouter les changements de préférence de thème
+    if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', detectColorScheme);
+    }
+
+    // Initialiser le mode de couleur
+    detectColorScheme();
 
     initApp();
 });
-
