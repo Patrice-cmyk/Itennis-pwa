@@ -7,17 +7,19 @@
     <link rel="stylesheet" href="style.css">
     <!-- Pour une PWA plus complète (hors MVP initial peut-être) -->
     <!-- <link rel="manifest" href="manifest.json"> -->
-    <!-- <meta name="theme-color" content="#006400"> -->
+    <!-- <meta name="theme-color" content="#8A7CFF"> -->
 </head>
 <body>
     <div id="app-container">
         <header>
-            <h1>ITennis</h1>
+            <div class="logo-container">
+                <img src="images/logo.png" alt="ITennis Logo" class="logo-img">
+                <h1>ITennis</h1>
+            </div>
         </header>
 
         <main id="main-content">
-            <!-- L'écran d'authentification sera injecté ici par app.js -->
-            <section id="auth-screen" class="screen active">
+            <section id="auth-screen" class="screen">
                 <div class="tabs">
                     <button id="show-signup-btn" class="tab-btn active">S'inscrire</button>
                     <button id="show-login-btn" class="tab-btn">Se Connecter</button>
@@ -66,22 +68,62 @@
             <section id="dashboard-screen" class="screen">
                 <h2>Tableau de Bord</h2>
                 <p>Bienvenue, <span id="user-pseudo-display"></span>!</p>
-                <p><a href="#" id="create-party-link">Créer une partie</a></p>
-                <p><a href="#" id="view-parties-link">Voir les parties</a></p>
-                <p><a href="#" id="profile-link">Mon Profil</a></p>
+                <p><a href="#" id="create-party-link" class="nav-link" data-target="create-party-screen">Créer une partie</a></p>
+                <p><a href="#" id="view-parties-link" class="nav-link" data-target="party-list-screen">Voir les parties</a></p>
+                <p><a href="#" id="profile-link" class="nav-link" data-target="profile-screen">Mon Profil</a></p>
                 <button id="logout-btn">Déconnexion</button>
             </section>
 
-            <!-- D'autres écrans (profil, création partie, liste parties, détail partie) seront ajoutés ici -->
             <section id="profile-screen" class="screen">
-                <!-- Contenu du profil -->
+                <h2>Mon Profil</h2>
+                
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <div class="profile-avatar-placeholder">👤</div>
+                        <!-- Image de profil à implémenter ultérieurement -->
+                    </div>
+                    <div class="profile-name" id="profile-name-display"></div>
+                    <div class="profile-level" id="profile-level-display"></div>
+                </div>
+                
+                <form id="profile-form">
+                    <div>
+                        <label for="profile-pseudo">Pseudo:</label>
+                        <input type="text" id="profile-pseudo" name="profile-pseudo" required minlength="3">
+                    </div>
+                    <div>
+                        <label for="profile-email">Email:</label>
+                        <input type="email" id="profile-email" name="profile-email" readonly disabled>
+                    </div>
+                    <div>
+                        <label for="profile-level">Niveau:</label>
+                        <select id="profile-level" name="profile-level">
+                            <option value="Débutant">Débutant</option>
+                            <option value="Intermédiaire">Intermédiaire</option>
+                            <option value="Avancé">Avancé</option>
+                            <option value="Compétition">Compétition</option>
+                        </select>
+                    </div>
+                    <button type="submit">Mettre à jour le profil</button>
+                </form>
+                <p id="profile-message" class="message"></p>
+                <button id="back-to-dashboard-profile" class="back-btn">Retour au Tableau de Bord</button>
             </section>
+
             <section id="create-party-screen" class="screen">
                 <!-- Contenu création partie -->
+                 <h2>Créer une Partie</h2>
+                <p>Bientôt disponible...</p>
+                <button id="back-to-dashboard-create" class="back-btn">Retour au Tableau de Bord</button>
             </section>
+
             <section id="party-list-screen" class="screen">
                 <!-- Contenu liste des parties -->
+                <h2>Liste des Parties</h2>
+                <p>Bientôt disponible...</p>
+                <button id="back-to-dashboard-list" class="back-btn">Retour au Tableau de Bord</button>
             </section>
+            
             <section id="party-detail-screen" class="screen">
                 <!-- Contenu détail partie -->
             </section>
@@ -94,17 +136,5 @@
     </div>
 
     <script src="app.js"></script>
-    <!-- Pour une PWA plus complète -->
-    <!-- <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-                console.log('Service Worker enregistré avec succès:', registration);
-            })
-            .catch(function(error) {
-                console.log('Échec de l\'enregistrement du Service Worker:', error);
-            });
-        }
-    </script> -->
 </body>
 </html>
