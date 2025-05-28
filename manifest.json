@@ -1,0 +1,18 @@
+{
+  "name": "ITennis",
+  "short_name": "ITennis",
+  "description": "Application de mise en relation pour joueurs de tennis",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#006400",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192'%3E%3Cpath fill='%23006400' d='M12.5,1A10.5,10.5 0 0,0 2,11.5A10.5,10.5 0 0,0 12.5,22A10.5,10.5 0 0,0 23,11.5A10.5,10.5 0 0,0 12.5,1M12.5,3A8.5,8.5 0 0,1 21,11.5A8.5,8.5 0 0,1 12.5,20A8.5,8.5 0 0,1 4,11.5A8.5,8.5 0 0,1 12.5,3M8,9.5A1.5,1.5 0 0,0 9.5,11A1.5,1.5 0 0,0 11,9.5A1.5,1.5 0 0,0 9.5,8A1.5,1.5 0 0,0 8,9.5M14,9.5A1.5,1.5 0 0,0 15.5,11A1.5,1.5 0 0,0 17,9.5A1.5,1.5 0 0,0 15.5,8A1.5,1.5 0 0,0 14,9.5M12.5,14C13.87,14 15,13.47 16,12.4C17,11.33 17,10 17,10H8C8,10 8,11.33 9,12.4C10,13.47 11.13,14 12.5,14M9,16V17H16V16H9Z'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait"
+}

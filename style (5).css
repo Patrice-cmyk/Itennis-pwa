@@ -1,0 +1,663 @@
+/* style.css */
+/* Styles généraux pour le prototype PWA ITennis */
+
+:root {
+    /* Variables pour le thème clair (par défaut) */
+    --color-primary: #006400;
+    --color-primary-dark: #004d00;
+    --color-primary-light: #008000;
+    --color-primary-gradient-start: #008000;
+    --color-primary-gradient-end: #004d00;
+    --color-background: #f4f4f4;
+    --color-card: #fff;
+    --color-text: #333;
+    --color-text-secondary: #666;
+    --color-border: #ddd;
+    --color-shadow: rgba(0,0,0,0.1);
+    --color-shadow-hover: rgba(0,0,0,0.15);
+    --color-error: #d9534f;
+    --color-error-dark: #c9302c;
+    --color-success: #5cb85c;
+    --color-button-secondary: #666;
+    --color-button-secondary-hover: #555;
+    --color-link: #006400;
+    --color-link-hover: #004d00;
+}
+
+[data-theme="dark"] {
+    /* Variables pour le thème sombre */
+    --color-primary: #008000;
+    --color-primary-dark: #006400;
+    --color-primary-light: #00a000;
+    --color-primary-gradient-start: #00a000;
+    --color-primary-gradient-end: #006400;
+    --color-background: #121212;
+    --color-card: #1e1e1e;
+    --color-text: #f0f0f0;
+    --color-text-secondary: #aaa;
+    --color-border: #333;
+    --color-shadow: rgba(0,0,0,0.3);
+    --color-shadow-hover: rgba(0,0,0,0.4);
+    --color-error: #e57373;
+    --color-error-dark: #d32f2f;
+    --color-success: #81c784;
+    --color-button-secondary: #555;
+    --color-button-secondary-hover: #444;
+    --color-link: #4caf50;
+    --color-link-hover: #81c784;
+}
+
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    position: fixed;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#app-container {
+    width: 100%;
+    background-color: var(--color-card);
+    min-height: 100vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px var(--color-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);
+}
+
+header {
+    background: linear-gradient(to bottom, var(--color-primary-gradient-start), var(--color-primary-gradient-end));
+    color: #fff;
+    padding: 1.2em 1em;
+    text-align: center;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.tennis-logo {
+    fill: #fff;
+    margin-right: 10px;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Switch pour le thème sombre/clair */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.theme-switch-label {
+    margin-right: 8px;
+    font-size: 0.9em;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--color-primary-light);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--color-primary-light);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+main#main-content {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+footer {
+    text-align: center;
+    padding: 1em;
+    background-color: #333;
+    color: #fff;
+    font-size: 0.9em;
+}
+
+.screen {
+    display: none; /* Caché par défaut, géré par JS */
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Styles pour l'écran d'authentification */
+#auth-screen .tabs {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+#auth-screen .tab-btn {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: #eee;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    color: #555;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#auth-screen .tab-btn.active {
+    background-color: #fff;
+    color: #006400; /* Vert foncé ITennis */
+    border-bottom: 2px solid #006400;
+    font-weight: bold;
+}
+
+.form-container {
+    display: none; /* Caché par défaut */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-container.active {
+    display: block;
+}
+
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    color: #006400;
+}
+
+.form-container div {
+    margin-bottom: 12px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    width: calc(100% - 22px); /* Ajustement pour padding et bordure */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.form-container button[type="submit"] {
+    background-color: #006400; /* Vert foncé ITennis */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #004d00; /* Vert plus foncé */
+}
+
+.message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Styles pour le tableau de bord (Dashboard) */
+#dashboard-screen h2 {
+    color: #006400;
+    margin-bottom: 20px;
+}
+
+#dashboard-screen p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+#dashboard-screen a {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 12px 15px;
+    margin: 10px 0;
+    background-color: rgba(0, 100, 0, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid var(--color-primary);
+}
+
+#dashboard-screen a:hover {
+    color: var(--color-link-hover);
+    background-color: rgba(0, 100, 0, 0.15);
+    transform: translateX(5px);
+}
+
+#dashboard-screen h2 {
+    color: var(--color-primary);
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+#dashboard-screen button#logout-btn {
+    background-color: var(--color-error);
+    color: white;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#dashboard-screen button#logout-btn:hover {
+    background-color: var(--color-error-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Styles pour l'écran de profil */
+#profile-screen h2 {
+    color: var(--color-primary);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+#profile-screen .profile-level-badge {
+    background-color: var(--color-primary);
+}
+
+.profile-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+@media (min-width: 480px) {
+    .profile-header {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+}
+
+.profile-photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 3px solid #006400;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-btn {
+    background-color: #006400;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.photo-btn:hover {
+    background-color: #004d00;
+}
+
+.profile-info {
+    text-align: center;
+}
+
+@media (min-width: 480px) {
+    .profile-info {
+        text-align: left;
+        margin-left: 20px;
+    }
+}
+
+.profile-info h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.profile-level-badge {
+    display: inline-block;
+    background-color: #006400;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.stat-value {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #006400;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: #666;
+}
+
+#profile-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.update-profile-btn {
+    background-color: #006400;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.update-profile-btn:hover {
+    background-color: #004d00;
+    transform: translateY(-2px);
+}
+
+.update-profile-btn:active {
+    transform: translateY(0);
+}
+
+.logout-btn {
+    background-color: #d9534f;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-bottom: 15px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
+}
+
+.back-btn {
+    background-color: #666;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #555;
+}
+
+/* Animation pour les éléments du profil */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.profile-header {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.profile-photo-container {
+    animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.profile-info {
+    animation: slideInRight 0.6s ease-out forwards;
+}
+
+.profile-stats {
+    animation: fadeIn 0.7s ease-out forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.stat-item:hover .stat-value {
+    animation: pulse 0.8s ease-in-out infinite;
+    color: var(--color-primary-light);
+}
+
+#profile-form {
+    animation: fadeIn 0.7s ease-out forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.update-profile-btn:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--color-shadow-hover);
+}
+
+.update-profile-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+/* Animation pour le changement de photo */
+.photo-btn:hover {
+    animation: pulse 1s ease-in-out infinite;
+    background-color: var(--color-primary-dark);
+}
+
+/* Animation pour le badge de niveau */
+.profile-level-badge {
+    transition: all 0.3s ease;
+}
+
+.profile-level-badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px var(--color-shadow-hover);
+}
+
+/* Styles pour les autres écrans (à développer) */
+/* Ajoutez ici les styles pour create-party-screen, etc. */
+
+/* Utilitaires */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive (basique pour l'exemple) */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+    .form-container button[type="submit"] {
+        font-size: 1em;
+    }
+}
+
